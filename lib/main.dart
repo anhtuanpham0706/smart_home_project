@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project_flutter2/component/base_bloc.dart';
+import 'package:project_flutter2/screen/home/home_page.dart';
 import 'package:project_flutter2/screen/main/main_bloc.dart';
+import 'package:project_flutter2/screen/main/main_page.dart';
 import 'package:project_flutter2/screen/splash/splash_page.dart';
 
 void main() {
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
         builder: () =>
             MultiBlocProvider(
             providers: [BlocProvider<MainBloc>(create: (context) => MainBloc())],
-            child: MaterialApp(home: const SplashPage(),
+            child: MaterialApp(home:  MainPage(),
                 key: key, debugShowCheckedModeBanner: false,
                 )
         )

@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_flutter2/component/ui/base_page.dart';
 import 'package:project_flutter2/screen/home/home_page.dart';
 import 'package:project_flutter2/screen/main/main_bloc.dart';
+import 'package:project_flutter2/screen/main/ui/main_page_ui.dart';
+import 'package:project_flutter2/screen/profile/ui/profile_page.dart';
+
+import '../../component/model/user_model.dart';
 
 
 
@@ -15,6 +19,7 @@ class MainPage extends BasePage {
 
 class MainPageState extends BasePageState with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final UserModel _user = UserModel();
   BasePage? _page;
   MainBloc? _bloc;
   int index = 0;
@@ -24,7 +29,7 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context, {Color color = Colors.white}) =>
-      Container();
+      MainPageUI(_user, _scaffoldKey, _bloc!, _changePage, _getPage);
 
   @override
   Widget createUI(BuildContext context) => const SizedBox();
@@ -32,24 +37,55 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
 
   @override
   void initBloc() {
-    int index = 0;
+    MainPageUI.index = 0;
     _bloc = BlocProvider.of<MainBloc>(context);
+    _bloc?.stream.listen((state) {
+      if (state is ChangePageMainState) _closeDrawer();
+      // else if (state is SetInfoMainState) _user.copy(state.user);
+      // else if (state is CountNotificationMainState)
+      //   _handleResponse(state.response, _handleCountNotification);
+    });
 
   }
 
   @override
   void initUI() {
-    // TODO: implement initUI
+
   }
 
 
-
+  void _changePage(int newIndex) {
+    // if (!Constants.valueLogin && (newIndex == 2 || newIndex == 3 || newIndex == 5)) {
+    //   showLogin();
+    //   return;
+    // }
+    if (MainPageUI.index != newIndex) {
+      if (newIndex == 7) {
+        // UtilUI.showCustomAlertDialog(context, MultiLanguage.get(LanguageKey.msgLogout), isActionCancel: true).then((value) {
+        //   if (value != null && value) UtilUI.logout(context);
+        // });
+        // return;
+      }
+      if (newIndex == 10) {
+        // _closeDrawer();
+        // UtilUI.goToPage(context, SharePage(), hasBack: true);
+        // return;
+      }
+      MainPageUI.index = newIndex;
+      _bloc?.add(ChangePageMainEvent(newIndex));
+    }
+  }
+  void _openDrawer() => _scaffoldKey.currentState?.openDrawer();
+  void _closeDrawer() {
+    if (_scaffoldKey.currentState != null &&
+        (_scaffoldKey.currentState?.isDrawerOpen)!) Navigator.pop(context);
+  }
   BasePage? _getPage() {
     if (_page != null) {
       WidgetsBinding.instance?.removeObserver(this);
       _page = null;
     }
-     switch (index) {
+     switch (MainPageUI.index) {
     //   case 1:
     //     _page = CartPage(null, funOpenDrawer: _openDrawer,
     //         funLoadCountCart: _loadCountCart, funOpenHomePage: _openHomePage);
@@ -57,9 +93,9 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
     //   case 2:
     //     _page = OrderHistoryPage(_openDrawer, _openHomePage);
     //     break;
-    //   case 3:
-    //     _page = ProfilePage(_openDrawer);
-    //     break;
+      case 3:
+        _page = ProfilePage(_openDrawer);
+        break;
     //   case 4:
     //     _page = NewsPage(_openDrawer);
     //     break;
