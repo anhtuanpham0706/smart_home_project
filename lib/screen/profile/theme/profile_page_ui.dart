@@ -10,7 +10,9 @@ class ProfilePageUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Container(
+      color: Colors.lightBlueAccent,
+    );
   }
 
 }

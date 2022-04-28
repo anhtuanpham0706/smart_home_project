@@ -5,6 +5,7 @@ import 'package:project_flutter2/screen/home/home_page.dart';
 import 'package:project_flutter2/screen/main/main_bloc.dart';
 import 'package:project_flutter2/screen/main/ui/main_page_ui.dart';
 import 'package:project_flutter2/screen/profile/ui/profile_page.dart';
+import 'package:project_flutter2/screen/sign_in/login_page.dart';
 
 import '../../component/model/user_model.dart';
 
@@ -93,9 +94,9 @@ class MainPageState extends BasePageState with WidgetsBindingObserver {
     //   case 2:
     //     _page = OrderHistoryPage(_openDrawer, _openHomePage);
     //     break;
-      case 3:
-        _page = ProfilePage(_openDrawer);
-        break;
+    //   case 3:
+    //     _page = ProfilePage(_openDrawer);
+    //     break;
     //   case 4:
     //     _page = NewsPage(_openDrawer);
     //     break;
